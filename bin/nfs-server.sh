@@ -18,5 +18,4 @@ docker run -it -d --name nfs-server --privileged --restart unless-stopped \
     -e SHARED_DIRECTORY=/shared -v $TARGET_DIR:/shared \
     -e SQUASH=$SQUASH -e ANONUID=$ANONUID -e ANONGID=$ANONGID \
     -p $PORT:2049 \
-    ghcr.io/onetop21/nfs-server-alpine
-    #itsthenetwork/nfs-server-alpine:12
+    ghcr.io/onetop21/nfs-server-alpine/nfs-server-alpine
