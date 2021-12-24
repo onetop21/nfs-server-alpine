@@ -7,19 +7,27 @@ A handy NFS Server image comprising Alpine Linux and NFS v4 only, over TCP on po
 ### Change target and port
 You can change target directory and port to share easily.
 ```bash
+# Local
 TARGET=data PORT=3000 bash bin/nfs-server.sh
+# Remote
+curl -sfL https://raw.githubusercontent.com/onetop21/nfs-server-alpine/dev/bin/nfs-server.sh | TARGET=data PORT=3000 bash -s
 ```
 
 ### Squash mode
 You can enable squash mode to change all clients uid/gid to host` easily
 ```bash
+# Local
 SQUASH=1 bash bin/nfs-server.sh
+# Remote
+curl -sfL https://raw.githubusercontent.com/onetop21/nfs-server-alpine/dev/bin/nfs-server.sh | SQUASH=1 bash -s
 ```
 
 ### Mount NFS (Client side)
 ```bash
-# Client side
+# Local
 IP=xxx.xxx.xxx.xxx PORT=3000 DIR=data bash bin/nfs-client.sh
+# Remote
+curl -sfL https://raw.githubusercontent.com/onetop21/nfs-server-alpine/dev/bin/nfs-client.sh | IP=xxx.xxx.xxx.xxx PORT=3000 DIR=data bash -s
 ```
 
 ## Overview
