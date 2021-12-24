@@ -21,23 +21,23 @@ jobs:
         echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
     - name: Fetch image name
       run: |
-        IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
+        export IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
 
         # Change all uppercase to lowercase
-        IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+        export IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
     - name: Fetch version (Release)
       if: github.event_name == 'release'
       run: |
         # Strip git ref prefix from version
-        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+        export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
         # Strip "v" prefix from tag name
         [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
     - name: Fetch version (Manual)
       if: github.event_name == 'workflow_dispatch'
       run: |
-        VERSION=latest
+        export VERSION=latest
 
     - name: Push Image
       run: |
