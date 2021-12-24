@@ -49,7 +49,7 @@ jobs:
 
     - name: Push Image
       run: |
-        IMAGE_ID=${{ steps.image_id.outputs.result }}
+        IMAGE_ID=${{ steps.image_name.outputs.result }}
         VERSION=${{ steps.release_version.outputs.result }}${{ steps.manual_version.outputs.result }}
         
         echo IMAGE_ID=$IMAGE_ID
