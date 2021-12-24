@@ -2,6 +2,26 @@
 
 A handy NFS Server image comprising Alpine Linux and NFS v4 only, over TCP on port 2049.
 
+## Get Started with Customized Options
+[![Docker Image CI](https://github.com/onetop21/nfs-server-alpine/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/onetop21/nfs-server-alpine/actions/workflows/docker-publish.yml)
+### Change target and port
+You can change target directory and port to share easily.
+```bash
+TARGET=data PORT=3000 bash bin/nfs-server.sh
+```
+
+### Squash mode
+You can enable squash mode to change all clients uid/gid to host` easily
+```bash
+SQUASH=1 bash bin/nfs-server.sh
+```
+
+### Mount NFS (Client side)
+```bash
+# Client side
+IP=xxx.xxx.xxx.xxx PORT=3000 DIR=data bash bin/nfs-client.sh
+```
+
 ## Overview
 
 The image comprises of;
