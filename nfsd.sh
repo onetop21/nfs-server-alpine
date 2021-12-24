@@ -41,6 +41,11 @@ if [ ! -z "${SHARED_DIRECTORY_2}" ]; then
   /bin/sed -i "s@{{SHARED_DIRECTORY_2}}@${SHARED_DIRECTORY_2}@g" /etc/exports
 fi
 
+# CUSTOMIZED by ONETOP21
+if [ ! -z "${SQUASH}" ]; then
+  /bin/sed -i "s@,no_root_squash@,root_squash,all_squash,anonuid=${ANONUID},anongid=${ANONGID}@g" /etc/exports
+fi
+
 # Check if the PERMITTED variable is empty
 if [ -z "${PERMITTED}" ]; then
   echo "The PERMITTED environment variable is unset or null, defaulting to '*'."
