@@ -20,27 +20,38 @@ jobs:
       run: >
         echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
     - name: Fetch image name
+      id: image_name
       run: |
-        export IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
+        IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
 
         # Change all uppercase to lowercase
-        export IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+        IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+        
+        echo ::set-output name=result::$IMAGE_ID
 
     - name: Fetch version (Release)
+      id: release_version
       if: github.event_name == 'release'
       run: |
         # Strip git ref prefix from version
-        export VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+        VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
         # Strip "v" prefix from tag name
         [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+        
+        echo ::set-output name=result::$VERSION
 
     - name: Fetch version (Manual)
+      id: manual_version
       if: github.event_name == 'workflow_dispatch'
       run: |
-        export VERSION=latest
+        VERSION=latest
+        echo ::set-output name=result::$VERSION
 
     - name: Push Image
       run: |
+        IMAGE_ID=${{ steps.image_id.outputs.result }}
+        VERSION=${{ steps.release_version.outputs.result }}${{ steps.manual_version.outputs.result }}
+        
         echo IMAGE_ID=$IMAGE_ID
         echo VERSION=$VERSION
 
